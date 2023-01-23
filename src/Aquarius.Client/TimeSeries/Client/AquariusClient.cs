@@ -17,11 +17,11 @@ namespace Aquarius.TimeSeries.Client
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static IAquariusClient CreateConnectedClient(string hostname, string username, string password)
+        public static IAquariusClient CreateConnectedClient(string hostname, string username, string password, string aqiIdpAccessToken)
         {
             var client = new AquariusClient();
 
-            client.Connect(hostname, username, password);
+            client.Connect(hostname, username, password, aqiIdpAccessToken);
 
             return client;
         }
@@ -214,17 +214,18 @@ namespace Aquarius.TimeSeries.Client
             return new ScopeAction(null);
         }
 
-        private void Connect(string hostname, string username, string password)
+        private void Connect(string hostname, string username, string password, string aqiIdpAccessToken)
         {
-            InternalConnect(hostname, () => ConnectionPool.Instance.GetConnection(hostname, username, password, Authenticator.Create(hostname)));
+            InternalConnect(hostname, () => ConnectionPool.Instance.GetConnection(hostname, username, password, aqiIdpAccessToken, Authenticator.Create(hostname)));
         }
 
         private void Connect(string hostname, string existingSessionToken)
         {
             const string fakeUsername = "!BrowserUser!";
             const string fakePassword = "!BrowserPassword!";
+            const string fakeAqiIdpAccessToken = "!BrowserAccessToken!";
 
-            InternalConnect(hostname, () => ConnectionPool.Instance.GetConnection(hostname, fakeUsername, fakePassword, ExistingSessionAuthenticator.Create(existingSessionToken)));
+            InternalConnect(hostname, () => ConnectionPool.Instance.GetConnection(hostname, fakeUsername, fakePassword, fakeAqiIdpAccessToken, ExistingSessionAuthenticator.Create(existingSessionToken)));
         }
 
         private void InternalConnect(string hostname, Func<Connection> connectionFactory)

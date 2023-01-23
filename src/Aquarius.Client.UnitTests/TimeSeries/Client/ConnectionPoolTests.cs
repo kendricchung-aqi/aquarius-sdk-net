@@ -29,14 +29,14 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
         [Test]
         public void GetConnection_WithOneConnectionKey_CreatesASingleConnection()
         {
-            var actual = GetConnection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>());
+            var actual = GetConnection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>());
 
             AssertConnectionCount(actual, 1);
         }
 
-        private Connection GetConnection(string hostname, string username, string password)
+        private Connection GetConnection(string hostname, string username, string password, string aqiIdpAccessToken)
         {
-            return _connectionPool.GetConnection(hostname, username, password, Substitute.For<IAuthenticator>());
+            return _connectionPool.GetConnection(hostname, username, password, aqiIdpAccessToken, Substitute.For<IAuthenticator>());
         }
 
         private void AssertConnectionCount(Connection connection, int expectedCount)
@@ -47,8 +47,8 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
         [Test]
         public void GetConnection_WithTwoDifferentConnectionKeys_CreatesTwoConnections()
         {
-            var actual1 = GetConnection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>());
-            var actual2 = GetConnection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>());
+            var actual1 = GetConnection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>());
+            var actual2 = GetConnection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>());
 
             AssertConnectionCount(actual1, 1);
             AssertConnectionCount(actual2, 1);
@@ -60,9 +60,10 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
             var hostname = _fixture.Create<string>();
             var username = _fixture.Create<string>();
             var password = _fixture.Create<string>();
+            var aqiIdpAccessToken = _fixture.Create<string>();
 
-            var actual1 = GetConnection(hostname, username, password);
-            var actual2 = GetConnection(hostname, username, password);
+            var actual1 = GetConnection(hostname, username, password, aqiIdpAccessToken);
+            var actual2 = GetConnection(hostname, username, password, aqiIdpAccessToken);
 
             AssertConnectionCount(actual1, 2);
             AssertConnectionCount(actual2, 2);
@@ -75,11 +76,12 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
             var hostname = _fixture.Create<string>();
             var username = _fixture.Create<string>();
             var password = _fixture.Create<string>();
+            var aqiIdpAccessToken = _fixture.Create<string>();
 
-            var actual1 = GetConnection(hostname, username, password);
+            var actual1 = GetConnection(hostname, username, password, aqiIdpAccessToken);
             actual1.Close();
 
-            var actual2 = GetConnection(hostname, username, password);
+            var actual2 = GetConnection(hostname, username, password, aqiIdpAccessToken);
             actual2.Close();
 
             AssertConnectionCount(actual1, 0);

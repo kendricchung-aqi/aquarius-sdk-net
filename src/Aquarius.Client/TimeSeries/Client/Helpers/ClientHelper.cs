@@ -40,13 +40,26 @@ namespace Aquarius.TimeSeries.Client.Helpers
             client.ClearCookies();
         }
 
-        public static string Login(IServiceClient client, string username, string password)
+        public static string Login(IServiceClient client, string username, string password, string aqiIdpAccessToken)
         {
             ClearAuthenticationToken(client as ServiceClientBase);
+
+            if (!string.IsNullOrEmpty(aqiIdpAccessToken))
+            {
+                return LoginWithAqiIdpAccessToken(aqiIdpAccessToken);
+            }
 
             var publicKey = client.Get(new GetPublicKey());
             var encryptedPassword = EncryptPassword(publicKey.Xml, password);
             return client.Post(new PostSession {EncryptedPassword = encryptedPassword, Username = username});
+        }
+
+        private static string LoginWithAqiIdpAccessToken(string aqiIdpAccessToken)
+        {
+            var baseUri = "http://ewqlovltkchung:1234/";
+            var client = new SdkServiceClient(baseUri);
+
+            return client.Post(new PostSessionToken { Token = aqiIdpAccessToken });
         }
 
         public static void Logout(IServiceClient client)

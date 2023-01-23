@@ -63,7 +63,7 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
         {
             var authenticator = CreateAuthenticator();
 
-            authenticator.Login(_fixture.Create<string>(), _fixture.Create<string>());
+            authenticator.Login(_fixture.Create<string>(), _fixture.Create<string>(), null);
 
             _mockServiceClient
                 .Received(1)

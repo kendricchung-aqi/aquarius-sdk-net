@@ -59,6 +59,7 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
                 _fixture.Create<string>(),
                 _fixture.Create<string>(),
                 _fixture.Create<string>(),
+                _fixture.Create<string>(),
                 _mockAuthenticator,
                 connection => { });
         }
@@ -94,7 +95,7 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
 
         private List<PopulatedUnitGroup> GetUnitsFromALiveServer()
         {
-            using (var client = AquariusClient.CreateConnectedClient("doug-vm2019", "admin", "admin"))
+            using (var client = AquariusClient.CreateConnectedClient("ewqlovltkchung", "admin", "admin", "access-token"))
             {
                 return client.Provisioning.Get(new GetUnits()).Results;
             }

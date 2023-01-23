@@ -2,7 +2,7 @@
 {
     public interface IAuthenticator
     {
-        string Login(string username, string password);
+        string Login(string username, string password, string aqiIdpAccessToken);
         void Logout();
     }
 }

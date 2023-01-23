@@ -16,7 +16,7 @@ namespace Aquarius.TimeSeries
             SessionToken = existingSessionToken;
         }
 
-        public string Login(string username, string password)
+        public string Login(string username, string password, string aqiIdpAccessToken)
         {
             return SessionToken;
         }

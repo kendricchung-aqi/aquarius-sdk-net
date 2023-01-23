@@ -22,12 +22,15 @@ namespace Aquarius.TimeSeries.Client
             string hostname,
             string username,
             string password,
+            string aqiIdpAccessToken,
             IAuthenticator authenticator,
             Action<Connection> connectionRemovalAction)
         {
             Hostname = hostname;
             Username = username;
             Password = password;
+            AqiIdpAccessToken = aqiIdpAccessToken;
+            
             Authenticator = authenticator;
             ConnectionRemovalAction = connectionRemovalAction;
 
@@ -47,7 +50,7 @@ namespace Aquarius.TimeSeries.Client
 
         private void CreateNewSession()
         {
-            SessionToken = Authenticator.Login(Username, Password);
+            SessionToken = Authenticator.Login(Username, Password, AqiIdpAccessToken);
 
             Trace($"NewSession SessionToken={SessionToken}");
         }
@@ -67,6 +70,7 @@ namespace Aquarius.TimeSeries.Client
         private string Hostname { get; }
         private string Username { get; }
         private string Password { get; }
+        private string AqiIdpAccessToken { get; }
 
         internal int ConnectionCount { get; set; }
 

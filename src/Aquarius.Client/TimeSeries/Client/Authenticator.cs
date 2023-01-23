@@ -27,9 +27,9 @@ namespace Aquarius.TimeSeries.Client
             ServerVersion = AquariusSystemDetector.Instance.GetAquariusServerVersion(hostname);
         }
 
-        public string Login(string username, string password)
+        public string Login(string username, string password, string aqiIdpAccessToken)
         {
-            return ClientHelper.Login(Client, username, password);
+            return ClientHelper.Login(Client, username, password, aqiIdpAccessToken);
         }
 
         public void Logout()

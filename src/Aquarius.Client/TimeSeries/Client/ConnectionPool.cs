@@ -19,13 +19,14 @@ namespace Aquarius.TimeSeries.Client
             string hostname,
             string username,
             string password,
+            string aqiIdpAccessToken,
             IAuthenticator authenticator)
         {
             lock (_syncLock)
             {
                 return _connections.AddOrUpdate(
                     CreateConnectionKey(hostname, username, password),
-                    key => new Connection(hostname, username, password, authenticator, Remove),
+                    key => new Connection(hostname, username, password, aqiIdpAccessToken, authenticator, Remove),
                     (key, connection) =>
                     {
                         connection.IncrementConnectionCount();

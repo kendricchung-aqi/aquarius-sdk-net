@@ -27,7 +27,7 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
 
             _mockAuthenticator = CreateMockAuthenticator();
 
-            _connection = new Connection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>(), _mockAuthenticator, RemoveConnection);
+            _connection = new Connection(_fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>(), _fixture.Create<string>(), _mockAuthenticator, RemoveConnection);
         }
 
         private IAuthenticator CreateMockAuthenticator()
@@ -35,7 +35,7 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
             var mockAuthenticator = Substitute.For<IAuthenticator>();
 
             mockAuthenticator
-                .Login(Arg.Any<string>(), Arg.Any<string>())
+                .Login(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
                 .Returns(x => _fixture.Create<string>());
 
             return mockAuthenticator;
@@ -62,7 +62,7 @@ namespace Aquarius.Client.UnitTests.TimeSeries.Client
 
         private void AssertExpectedSessionCreateCount(int expectedCount)
         {
-            _mockAuthenticator.Received(expectedCount).Login(Arg.Any<string>(), Arg.Any<string>());
+            _mockAuthenticator.Received(expectedCount).Login(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
         }
 
         private void AssertExpectedSessionDeleteCount(int expectedCount)

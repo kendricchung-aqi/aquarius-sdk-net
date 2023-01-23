@@ -85,6 +85,17 @@ namespace Aquarius.TimeSeries.Client.ServiceModels.Publish
         [ApiMember(Description="Optional locale. Defaults to English")]
         public string Locale { get; set; }
     }
+    
+    [Route("/session/aqi/idp", "POST")]
+    public class PostSessionToken
+        : IReturn<string>
+    {
+        ///<summary>
+        ///AQI IDP Access Token
+        ///</summary>
+        [ApiMember(Description="AQI IDP Access Token")]
+        public string Token { get; set; }
+    }
 
     public class PublicKey
     {
